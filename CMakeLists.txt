@@ -36,24 +36,3 @@ option(BUILD_SNOPT "compile with SNOPT solver" OFF)
 if (BUILD_SNOPT)
   add_subdirectory(ifopt_snopt)
 endif()
-
-
-##################################################
-## Install find scripts for find_package(ifopt) ##
-##################################################
-# generate the file IfoptConfigVersion.cmake
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file(
-  "${CMAKE_CURRENT_BINARY_DIR}/ifopt-config-version.cmake"
-  VERSION ${ifopt_VERSION}
-  COMPATIBILITY SameMajorVersion
-)
-# install the two files in a place where cmake looks for them
-install(
-  FILES 
-    "${CMAKE_CURRENT_SOURCE_DIR}/ifopt-config.cmake"         # self-written
-    "${CMAKE_CURRENT_BINARY_DIR}/ifopt-config-version.cmake" # generated
-  DESTINATION ${config_package_location}
-)
-# Install a Catkin 'package.xml' file. This is required by REP-136.
-install(FILES package.xml DESTINATION share/${PROJECT_NAME})

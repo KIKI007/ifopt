@@ -42,35 +42,3 @@ target_link_libraries(${LIB_IPOPT}-example
     ${LIB_IPOPT}
 )
 add_test(${LIB_IPOPT}-example ${LIB_IPOPT}-example)
-
-
-#############
-## Install ##
-#############
- # Copy library files to usr/local/lib/libifopt_ipopt.so
-install(
-  TARGETS ${LIB_IPOPT}
-  EXPORT  ${LIB_IPOPT}-targets
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-)
-# install example executable
-install(
-  TARGETS ${LIB_IPOPT}-example
-  RUNTIME DESTINATION ${IFOPT_INSTALL_BINDIR}
-)
-# Copy header files to usr/local/include/ifopt/*
-install(DIRECTORY include/ifopt/
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ifopt
-)
-# install a *.cmake file in destination
-install(EXPORT ${LIB_IPOPT}-targets
-  FILE ${LIB_IPOPT}-targets.cmake
-  NAMESPACE ifopt::
-  DESTINATION ${config_package_location}
-)
-
-
-

@@ -1,6 +1,10 @@
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
-find_package(Eigen3 REQUIRED)
-
+if (NOT TARGET Eigen3::Eigen)
+  message(STATUS "osqp-cpp: `Eigen3` targets not found. Attempting to find package...")
+  find_package(Eigen3 3.3.7 REQUIRED NO_MODULE)
+else()
+  message(STATUS "osqp-cpp: `Eigen3` targets found.")
+endif()
 
 ###########
 ## Build ##
@@ -10,13 +14,15 @@ add_library(${LIB_CORE}
     src/composite.cc
     src/leaves.cc
 )
+
+target_link_libraries(${LIB_CORE} PUBLIC Eigen3::Eigen)
+
 target_include_directories(${LIB_CORE} 
   PUBLIC 
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/test>
-    $<INSTALL_INTERFACE:include>
-    ${EIGEN3_INCLUDE_DIR}
-)
+    $<INSTALL_INTERFACE:include>)
+
 # better specify features you need, not c++ version
 target_compile_features(${LIB_CORE} 
   PUBLIC 
